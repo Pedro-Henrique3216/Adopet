@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/tutores")
@@ -32,9 +33,11 @@ public class TutorController {
 
     @GetMapping
     public ResponseEntity<Page<DadosRetornoTutor>> findAll(Pageable pageable) {
-        if(service.findAll(pageable).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(service.findAll(pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosRetornoTutor> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.findById(id));
     }
 }
