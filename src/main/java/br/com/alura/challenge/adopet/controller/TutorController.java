@@ -1,6 +1,7 @@
 package br.com.alura.challenge.adopet.controller;
 
 import br.com.alura.challenge.adopet.dto.CadastroTutor;
+import br.com.alura.challenge.adopet.dto.DadosAtualizaTutor;
 import br.com.alura.challenge.adopet.dto.DadosRetornoTutor;
 import br.com.alura.challenge.adopet.model.Tutor;
 import br.com.alura.challenge.adopet.service.TutorService;
@@ -39,5 +40,11 @@ public class TutorController {
     @GetMapping("/{id}")
     public ResponseEntity<DadosRetornoTutor> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DadosRetornoTutor> update(@PathVariable UUID id, @RequestBody DadosAtualizaTutor dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
     }
 }
