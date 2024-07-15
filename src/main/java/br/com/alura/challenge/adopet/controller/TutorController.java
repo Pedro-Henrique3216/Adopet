@@ -47,4 +47,11 @@ public class TutorController {
     public ResponseEntity<DadosRetornoTutor> update(@PathVariable UUID id, @RequestBody DadosAtualizaTutor dto) {
         return ResponseEntity.ok(service.atualizar(id, dto));
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }

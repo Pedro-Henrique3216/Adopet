@@ -56,4 +56,11 @@ public class TutorService {
         }
         return new DadosRetornoTutor(tutor);
     }
+
+    public void excluir(UUID id){
+        if(repository.findById(id).isEmpty()){
+            throw new EntityNotFoundException("Não existe tutor cadastrado com esse id");
+        }
+        repository.deleteById(id);
+    }
 }
