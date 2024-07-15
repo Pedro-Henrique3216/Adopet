@@ -1,22 +1,22 @@
 package br.com.alura.challenge.adopet.controller;
 
 import br.com.alura.challenge.adopet.dto.CadastroTutor;
+import br.com.alura.challenge.adopet.dto.DadosRetornoTutor;
 import br.com.alura.challenge.adopet.model.Tutor;
 import br.com.alura.challenge.adopet.service.TutorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping("/tutor")
+@RequestMapping("/tutores")
 public class TutorController {
 
     @Autowired
@@ -24,9 +24,17 @@ public class TutorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Tutor> create(@RequestBody @Valid CadastroTutor dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosRetornoTutor> create(@RequestBody @Valid CadastroTutor dto, UriComponentsBuilder uriBuilder) {
         Tutor tutor = service.cadastrarTutor(dto);
         URI uri = uriBuilder.path("/tutor/{id}").buildAndExpand(tutor.getId()).toUri();
-        return ResponseEntity.created(uri).body(tutor);
+        return ResponseEntity.created(uri).body(new DadosRetornoTutor(tutor));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<DadosRetornoTutor>> findAll(Pageable pageable) {
+        if(service.findAll(pageable).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(service.findAll(pageable));
     }
 }
