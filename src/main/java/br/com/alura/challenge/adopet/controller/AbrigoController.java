@@ -4,6 +4,7 @@ import br.com.alura.challenge.adopet.dto.CadastroAbrigo;
 import br.com.alura.challenge.adopet.dto.DadosDetalhamentoAbrigo;
 import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.service.AbrigoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class AbrigoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DadosDetalhamentoAbrigo> adicionaAbrigo(@RequestBody CadastroAbrigo dto, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<DadosDetalhamentoAbrigo> adicionaAbrigo(@RequestBody @Valid CadastroAbrigo dto, UriComponentsBuilder uriComponentsBuilder) {
         Abrigo abrigo = service.cadastrarAbrigo(dto);
         URI uri = uriComponentsBuilder.path("/abrigos/{id}").buildAndExpand(abrigo.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoAbrigo(abrigo));
