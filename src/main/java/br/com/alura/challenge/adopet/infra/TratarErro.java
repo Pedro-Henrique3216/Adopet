@@ -3,9 +3,12 @@ package br.com.alura.challenge.adopet.infra;
 import br.com.alura.challenge.adopet.exception.EnderecoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
 
 @RestControllerAdvice
 public class TratarErro {
@@ -21,7 +24,10 @@ public class TratarErro {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<MostradorErro> tratarErroDeValidacao(MethodArgumentNotValidException e) {
-        return ResponseEntity.badRequest().body(new MostradorErro(e.getBindingResult().getFieldError().getField(), e.getBindingResult().getFieldError().getDefaultMessage()));
+    public ResponseEntity<List<MostradorErro>> tratarErroDeValidacao(MethodArgumentNotValidException e) {
+        List<FieldError> fieldErrors = e.getFieldErrors();
+        return ResponseEntity.badRequest().body(fieldErrors.stream()
+                .map(erro -> new MostradorErro(erro.getField(), erro.getDefaultMessage()))
+                .toList());
     }
 }
