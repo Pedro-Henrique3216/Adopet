@@ -16,15 +16,14 @@ public class AbrigoService {
     @Autowired
     private AbrigoRepository repository;
 
-    public DadosDetalhamentoAbrigo cadastrarAbrigo(CadastroAbrigo dto) {
+    public Abrigo cadastrarAbrigo(CadastroAbrigo dto) {
         Endereco endereco = pegarEndereco(dto.cep());
         if(endereco.getCep() == null) {
             throw new EnderecoException("cep invalido");
         }
         endereco.setNumero(dto.numero());
         Abrigo abrigo = new Abrigo(dto.nome(), dto.cnpj(), dto.login(), dto.senha(), dto.telefone(), endereco);
-        repository.save(abrigo);
-        return new DadosDetalhamentoAbrigo(abrigo.getId(), abrigo.getNome(), abrigo.getCnpj(), abrigo.getLogin(), abrigo.getTelefone(), abrigo.getEndereco());
+        return repository.save(abrigo);
     }
 
     private Endereco pegarEndereco(String cep) {
