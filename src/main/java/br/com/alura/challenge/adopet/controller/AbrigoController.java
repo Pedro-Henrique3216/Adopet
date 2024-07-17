@@ -1,7 +1,7 @@
 package br.com.alura.challenge.adopet.controller;
 
 import br.com.alura.challenge.adopet.dto.CadastroAbrigo;
-import br.com.alura.challenge.adopet.model.Abrigo;
+import br.com.alura.challenge.adopet.dto.DadosDetalhamentoAbrigo;
 import br.com.alura.challenge.adopet.service.AbrigoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ public class AbrigoController {
 
     @PostMapping
     @Transactional
-    public Abrigo adicionaAbrigo(@RequestBody CadastroAbrigo dto) {
+    public DadosDetalhamentoAbrigo adicionaAbrigo(@RequestBody CadastroAbrigo dto) {
         return service.cadastrarAbrigo(dto);
     }
 
