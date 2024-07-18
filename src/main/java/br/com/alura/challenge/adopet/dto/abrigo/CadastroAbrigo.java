@@ -1,6 +1,5 @@
-package br.com.alura.challenge.adopet.dto;
+package br.com.alura.challenge.adopet.dto.abrigo;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -14,6 +13,7 @@ public record CadastroAbrigo(
         String login,
 
         @NotBlank(message = "senha não pode ser em branco ou nulo")
+        @Pattern(regexp = "\\S{8,30}", message = "senha deve ter entre 8 e 30 digitos")
         String senha,
 
         @NotBlank(message = "cnpj não pode estar em branco")
@@ -21,7 +21,7 @@ public record CadastroAbrigo(
         String cnpj,
 
         @NotBlank(message = "telefone não pode estar em branco")
-        @Pattern(regexp = "\\d{8,11}")
+        @Pattern(regexp = "\\d{8,11}", message = "telefone invalido")
         String telefone,
 
         @NotBlank(message = "cep não pode estar em branco")

@@ -1,8 +1,9 @@
-package br.com.alura.challenge.adopet.dto;
+package br.com.alura.challenge.adopet.dto.tutor;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public record CadastroTutor(
         @NotBlank(message = "Nome não pode ser em branco ou nulo")
@@ -13,6 +14,7 @@ public record CadastroTutor(
         String login,
 
         @NotBlank(message = "senha não pode ser em branco ou nulo")
+        @Pattern(regexp = "\\S{8,30}", message = "senha deve ter entre 8 e 30 digitos")
         String password,
 
         @NotBlank(message = "cidade não pode ser em branco ou nulo")
