@@ -50,4 +50,10 @@ public class AbrigoController {
         return ResponseEntity.ok(service.atualizarAbrigo(id, dto));
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -79,4 +79,11 @@ public class AbrigoService {
         }
     }
 
+    public void excluir(UUID id) {
+        if(repository.findById(id).isEmpty()){
+            throw new EntityNotFoundException("Não existe abrigo cadastrado com esse id");
+        }
+        repository.deleteById(id);
+    }
+
 }
