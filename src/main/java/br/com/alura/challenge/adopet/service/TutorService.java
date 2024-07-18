@@ -1,8 +1,8 @@
 package br.com.alura.challenge.adopet.service;
 
-import br.com.alura.challenge.adopet.dto.CadastroTutor;
-import br.com.alura.challenge.adopet.dto.DadosAtualizaTutor;
-import br.com.alura.challenge.adopet.dto.DadosRetornoTutor;
+import br.com.alura.challenge.adopet.dto.tutor.CadastroTutor;
+import br.com.alura.challenge.adopet.dto.tutor.DadosAtualizaTutor;
+import br.com.alura.challenge.adopet.dto.tutor.DadosRetornoTutor;
 import br.com.alura.challenge.adopet.model.Tutor;
 import br.com.alura.challenge.adopet.repository.TutorRepository;
 import jakarta.persistence.EntityNotFoundException;
