@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -17,11 +18,15 @@ public class Abrigo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @Setter
     private String nome;
     private String cnpj;
     private String login;
+    @Setter
     private String senha;
+    @Setter
     private String telefone;
+    @Setter
     @Embedded
     private Endereco endereco;
 

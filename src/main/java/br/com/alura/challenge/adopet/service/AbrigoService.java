@@ -1,8 +1,9 @@
 package br.com.alura.challenge.adopet.service;
 
-import br.com.alura.challenge.adopet.dto.CadastroAbrigo;
-import br.com.alura.challenge.adopet.dto.DadosDetalhamentoAbrigo;
-import br.com.alura.challenge.adopet.dto.DadosRetornoAbrigo;
+import br.com.alura.challenge.adopet.dto.abrigo.CadastroAbrigo;
+import br.com.alura.challenge.adopet.dto.abrigo.DadosAtualizaAbrigo;
+import br.com.alura.challenge.adopet.dto.abrigo.DadosDetalhamentoAbrigo;
+import br.com.alura.challenge.adopet.dto.abrigo.DadosRetornoAbrigo;
 import br.com.alura.challenge.adopet.exception.EnderecoException;
 import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.model.Endereco;
@@ -24,9 +25,6 @@ public class AbrigoService {
 
     public Abrigo cadastrarAbrigo(CadastroAbrigo dto) {
         Endereco endereco = pegarEndereco(dto.cep());
-        if(endereco.getCep() == null) {
-            throw new EnderecoException("cep invalido");
-        }
         endereco.setNumero(dto.numero());
         Abrigo abrigo = new Abrigo(dto.nome(), dto.cnpj(), dto.login(), dto.senha(), dto.telefone(), endereco);
         return repository.save(abrigo);
@@ -35,7 +33,11 @@ public class AbrigoService {
     private Endereco pegarEndereco(String cep) {
         cep = cep.replace("-", "");
         String uri = "http://viacep.com.br/ws/" + cep + "/json/";
-        return new RestTemplate().getForObject(uri, Endereco.class);
+        Endereco endereco = new RestTemplate().getForObject(uri, Endereco.class);
+        if (endereco == null || endereco.getCep() == null){
+            throw new EnderecoException("cep invalido");
+        }
+        return endereco;
     }
 
     public Page<DadosRetornoAbrigo> listarAbrigos(Pageable pageable) {
@@ -51,6 +53,30 @@ public class AbrigoService {
     public DadosDetalhamentoAbrigo buscarAbrigoPorId(UUID id){
         Abrigo abrigo = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("abrigo não encontrado"));
         return new DadosDetalhamentoAbrigo(abrigo);
+    }
+
+    public DadosDetalhamentoAbrigo atualizarAbrigo(UUID id, DadosAtualizaAbrigo dto) {
+        Abrigo abrigo = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("abrigo não encontrado"));
+        alteraCampos(abrigo, dto);
+        return new DadosDetalhamentoAbrigo(abrigo);
+    }
+
+    private void alteraCampos(Abrigo abrigo, DadosAtualizaAbrigo dto) {
+        if(dto.nome() != null){
+            abrigo.setNome(dto.nome());
+        }
+        if(dto.senha() != null){
+            abrigo.setSenha(dto.senha());
+        }
+        if(dto.telefone() != null){
+            abrigo.setTelefone(dto.telefone());
+        }
+        if(dto.cep() != null){
+            abrigo.setEndereco(pegarEndereco(dto.cep()));
+        }
+        if(dto.numero() != null){
+            abrigo.getEndereco().setNumero(dto.numero());
+        }
     }
 
 }
