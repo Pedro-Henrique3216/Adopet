@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.UUID;
+
 @Service
 public class AbrigoService {
 
@@ -45,4 +47,10 @@ public class AbrigoService {
                 .map(DadosRetornoAbrigo::new);
 
     }
+
+    public DadosDetalhamentoAbrigo buscarAbrigoPorId(UUID id){
+        Abrigo abrigo = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("abrigo não encontrado"));
+        return new DadosDetalhamentoAbrigo(abrigo);
+    }
+
 }

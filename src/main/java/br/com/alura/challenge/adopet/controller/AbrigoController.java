@@ -9,13 +9,13 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 
 @RestController
@@ -36,6 +36,11 @@ public class AbrigoController {
     @GetMapping
     public ResponseEntity<Page<DadosRetornoAbrigo>> listarAbrigos(Pageable pageable) {
         return ResponseEntity.ok(service.listarAbrigos(pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoAbrigo> buscarAbrigoPorId(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.buscarAbrigoPorId(id));
     }
 
 }
