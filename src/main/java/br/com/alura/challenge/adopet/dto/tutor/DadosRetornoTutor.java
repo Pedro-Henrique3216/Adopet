@@ -1,4 +1,4 @@
-package br.com.alura.challenge.adopet.dto;
+package br.com.alura.challenge.adopet.dto.tutor;
 
 import br.com.alura.challenge.adopet.model.Tutor;
 

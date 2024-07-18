@@ -1,4 +1,4 @@
-package br.com.alura.challenge.adopet.dto;
+package br.com.alura.challenge.adopet.dto.abrigo;
 
 import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.model.Endereco;
