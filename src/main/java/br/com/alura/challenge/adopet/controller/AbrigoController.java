@@ -4,6 +4,8 @@ import br.com.alura.challenge.adopet.dto.abrigo.CadastroAbrigo;
 import br.com.alura.challenge.adopet.dto.abrigo.DadosAtualizaAbrigo;
 import br.com.alura.challenge.adopet.dto.abrigo.DadosDetalhamentoAbrigo;
 import br.com.alura.challenge.adopet.dto.abrigo.DadosRetornoAbrigo;
+import br.com.alura.challenge.adopet.dto.pet.CadastroPets;
+import br.com.alura.challenge.adopet.dto.pet.DadosDetalhamentoPet;
 import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.service.AbrigoService;
 import jakarta.validation.Valid;
@@ -55,5 +57,11 @@ public class AbrigoController {
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/cadastrarPet")
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoPet> cadastrarPet(@RequestBody @Valid CadastroPets dto){
+        return ResponseEntity.ok(service.cadastraPet(dto));
     }
 }

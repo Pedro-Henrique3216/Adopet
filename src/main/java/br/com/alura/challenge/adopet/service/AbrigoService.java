@@ -4,7 +4,8 @@ import br.com.alura.challenge.adopet.dto.abrigo.CadastroAbrigo;
 import br.com.alura.challenge.adopet.dto.abrigo.DadosAtualizaAbrigo;
 import br.com.alura.challenge.adopet.dto.abrigo.DadosDetalhamentoAbrigo;
 import br.com.alura.challenge.adopet.dto.abrigo.DadosRetornoAbrigo;
-import br.com.alura.challenge.adopet.exception.EnderecoException;
+import br.com.alura.challenge.adopet.dto.pet.CadastroPets;
+import br.com.alura.challenge.adopet.dto.pet.DadosDetalhamentoPet;
 import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.model.Endereco;
 import br.com.alura.challenge.adopet.repository.AbrigoRepository;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 
@@ -23,21 +23,14 @@ public class AbrigoService {
     @Autowired
     private AbrigoRepository repository;
 
+    @Autowired
+    private PetService petService;
+
     public Abrigo cadastrarAbrigo(CadastroAbrigo dto) {
-        Endereco endereco = pegarEndereco(dto.cep());
+        Endereco endereco = BuscaEndereco.pegarEndereco(dto.cep());
         endereco.setNumero(dto.numero());
         Abrigo abrigo = new Abrigo(dto.nome(), dto.cnpj(), dto.login(), dto.senha(), dto.telefone(), endereco);
         return repository.save(abrigo);
-    }
-
-    private Endereco pegarEndereco(String cep) {
-        cep = cep.replace("-", "");
-        String uri = "http://viacep.com.br/ws/" + cep + "/json/";
-        Endereco endereco = new RestTemplate().getForObject(uri, Endereco.class);
-        if (endereco == null || endereco.getCep() == null){
-            throw new EnderecoException("cep invalido");
-        }
-        return endereco;
     }
 
     public Page<DadosRetornoAbrigo> listarAbrigos(Pageable pageable) {
@@ -72,7 +65,7 @@ public class AbrigoService {
             abrigo.setTelefone(dto.telefone());
         }
         if(dto.cep() != null){
-            abrigo.setEndereco(pegarEndereco(dto.cep()));
+            abrigo.setEndereco(BuscaEndereco.pegarEndereco(dto.cep()));
         }
         if(dto.numero() != null){
             abrigo.getEndereco().setNumero(dto.numero());
@@ -86,4 +79,8 @@ public class AbrigoService {
         repository.deleteById(id);
     }
 
+    public DadosDetalhamentoPet cadastraPet(CadastroPets dto) {
+        Abrigo abrigo = repository.findById(dto.abrigoId()).orElseThrow(() -> new EntityNotFoundException("abrigo não encontrado"));
+        return petService.cadastrarAbrigo(dto, abrigo);
+    }
 }
