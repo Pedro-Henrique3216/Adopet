@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class PetService {
 
@@ -33,5 +35,10 @@ public class PetService {
             throw new EntityNotFoundException("Não existe pet cadastrado");
         }
         return pet;
+    }
+
+    public DadosDetalhamentoPet buscarPorId(UUID id) {
+        Pet pet = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("id não encontrado"));
+        return new DadosDetalhamentoPet(pet);
     }
 }
