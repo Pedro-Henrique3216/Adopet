@@ -34,4 +34,11 @@ public class PetController {
     public ResponseEntity<DadosDetalhamentoPet> update(@PathVariable UUID id, @RequestBody DadosAtualizaPet dados) {
         return ResponseEntity.ok(service.atualizaPet(id, dados));
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }

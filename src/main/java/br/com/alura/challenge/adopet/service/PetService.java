@@ -69,4 +69,11 @@ public class PetService {
             pet.getEndereco().setNumero(dto.numero());
         }
     }
+
+    public void excluir(UUID id) {
+        if(repository.findById(id).isEmpty()){
+            throw new EntityNotFoundException("Não existe pet cadastrado com esse id");
+        }
+        repository.deleteById(id);
+    }
 }
