@@ -1,6 +1,5 @@
 package br.com.alura.challenge.adopet.service;
 
-import br.com.alura.challenge.adopet.dto.abrigo.DadosAtualizaAbrigo;
 import br.com.alura.challenge.adopet.dto.pet.CadastroPets;
 import br.com.alura.challenge.adopet.dto.pet.DadosAtualizaPet;
 import br.com.alura.challenge.adopet.dto.pet.DadosDetalhamentoPet;
