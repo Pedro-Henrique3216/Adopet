@@ -1,6 +1,8 @@
 package br.com.alura.challenge.adopet.service;
 
+import br.com.alura.challenge.adopet.dto.abrigo.DadosAtualizaAbrigo;
 import br.com.alura.challenge.adopet.dto.pet.CadastroPets;
+import br.com.alura.challenge.adopet.dto.pet.DadosAtualizaPet;
 import br.com.alura.challenge.adopet.dto.pet.DadosDetalhamentoPet;
 import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.model.Endereco;
@@ -40,5 +42,32 @@ public class PetService {
     public DadosDetalhamentoPet buscarPorId(UUID id) {
         Pet pet = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("id não encontrado"));
         return new DadosDetalhamentoPet(pet);
+    }
+
+    public DadosDetalhamentoPet atualizaPet(UUID id, DadosAtualizaPet dto) {
+        Pet pet = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("id não encontrado"));
+        alteraCampos(pet, dto);
+        return new DadosDetalhamentoPet(pet);
+    }
+
+    private void alteraCampos(Pet pet, DadosAtualizaPet dto) {
+        if(dto.nome() != null){
+            pet.setNome(dto.nome());
+        }
+        if(dto.descricao() != null){
+            pet.setDescricao(dto.descricao());
+        }
+        if(dto.idade() != null){
+            pet.setIdade(dto.idade());
+        }
+        if(dto.imagem() != null){
+            pet.setImagem(dto.imagem());
+        }
+        if(dto.cep() != null){
+            pet.setEndereco(BuscaEndereco.pegarEndereco(dto.cep()));
+        }
+        if(dto.numero() != null){
+            pet.getEndereco().setNumero(dto.numero());
+        }
     }
 }
