@@ -1,12 +1,7 @@
 package br.com.alura.challenge.adopet.dto.adocao;
 
-import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.model.Adocao;
-import br.com.alura.challenge.adopet.model.Endereco;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
