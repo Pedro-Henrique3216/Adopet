@@ -18,10 +18,10 @@ public class Adocao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "animal")
     private Pet pet;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "tutor")
     private Tutor tutor;
     @Column(name = "data")
