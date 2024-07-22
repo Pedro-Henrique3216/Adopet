@@ -30,7 +30,7 @@ public class PetService {
     }
 
     public Page<DadosDetalhamentoPet> listarTodos(Pageable pageable) {
-        Page<DadosDetalhamentoPet> pet = repository.findAll(pageable)
+        Page<DadosDetalhamentoPet> pet = repository.findAllByAdotadoIsFalse(pageable)
                 .map(DadosDetalhamentoPet::new);
         if(pet.isEmpty()){
             throw new EntityNotFoundException("Não existe pet cadastrado");
