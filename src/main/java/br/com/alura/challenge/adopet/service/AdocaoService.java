@@ -24,13 +24,12 @@ public class AdocaoService {
     @Autowired
     private PetService petService;
 
-    public DadosDetalhamentoAdocao createAdocao(CadastroAdocao dto) {
+    public Adocao createAdocao(CadastroAdocao dto) {
         Tutor tutor = tutorService.buscarTutor(dto.tutor());
         Pet pet = petService.buscarPet(dto.animal());
         Adocao adocao = new Adocao(pet, tutor);
         pet.setAdotado(Boolean.TRUE);
-        repository.save(adocao);
-        return new DadosDetalhamentoAdocao(adocao);
+        return repository.save(adocao);
     }
 
     public void excluirAdocao(UUID id) {
