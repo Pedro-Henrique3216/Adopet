@@ -76,4 +76,8 @@ public class PetService {
         }
         repository.deleteById(id);
     }
+
+    public Pet buscarPet(UUID id) {
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Não existe pet cadastrado com esse id"));
+    }
 }

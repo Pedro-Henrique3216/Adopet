@@ -63,4 +63,8 @@ public class TutorService {
         }
         repository.deleteById(id);
     }
+
+    public Tutor buscarTutor(UUID id){
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Não existe usuario com esse id"));
+    }
 }
