@@ -6,8 +6,11 @@ import br.com.alura.challenge.adopet.model.Adocao;
 import br.com.alura.challenge.adopet.model.Pet;
 import br.com.alura.challenge.adopet.model.Tutor;
 import br.com.alura.challenge.adopet.repository.AdocaoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class AdocaoService {
@@ -28,5 +31,15 @@ public class AdocaoService {
         pet.setAdotado(Boolean.TRUE);
         repository.save(adocao);
         return new DadosDetalhamentoAdocao(adocao);
+    }
+
+    public void excluirAdocao(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Não existe uma adocao com esse id");
+        }
+        Adocao adocao = repository.getReferenceById(id);
+        Pet pet = adocao.getPet();
+        pet.setAdotado(Boolean.FALSE);
+        repository.deleteById(id);
     }
 }

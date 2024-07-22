@@ -6,10 +6,9 @@ import br.com.alura.challenge.adopet.service.AdocaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/adocoes")
@@ -22,6 +21,13 @@ public class AdocaoController {
     @Transactional
     public ResponseEntity<DadosDetalhamentoAdocao> adotar(@RequestBody CadastroAdocao dto) {
         return ResponseEntity.ok(service.createAdocao(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> cancelarAdocao(@PathVariable UUID id) {
+        service.excluirAdocao(id);
+        return ResponseEntity.noContent().build();
     }
 
 
