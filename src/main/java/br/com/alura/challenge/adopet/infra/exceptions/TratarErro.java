@@ -1,4 +1,4 @@
-package br.com.alura.challenge.adopet.infra;
+package br.com.alura.challenge.adopet.infra.exceptions;
 
 import br.com.alura.challenge.adopet.exception.EnderecoException;
 import jakarta.persistence.EntityNotFoundException;
