@@ -4,11 +4,14 @@ import br.com.alura.challenge.adopet.dto.tutor.CadastroTutor;
 import br.com.alura.challenge.adopet.dto.tutor.DadosAtualizaTutor;
 import br.com.alura.challenge.adopet.dto.tutor.DadosRetornoTutor;
 import br.com.alura.challenge.adopet.model.Tutor;
+import br.com.alura.challenge.adopet.model.User;
+import br.com.alura.challenge.adopet.model.UserRole;
 import br.com.alura.challenge.adopet.repository.TutorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,8 +22,18 @@ public class TutorService {
     @Autowired
     private TutorRepository repository;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     public Tutor cadastrarTutor(CadastroTutor dto){
-        Tutor tutor = new Tutor(dto.login(), dto.password(), dto.nome() , dto.cidade(), dto.telefone(), dto.sobreMim());
+        Tutor tutor = new Tutor(dto.nome() , dto.cidade(), dto.telefone(), dto.sobreMim());
+        User user = new User(dto.login(), passwordEncoder.encode(dto.password()), UserRole.TUTOR);
+        userService.saveUser(user);
+        tutor.setUser(user);
         return repository.save(tutor);
     }
 
@@ -52,7 +65,7 @@ public class TutorService {
             tutor.setSobreMim(dto.sobreMim());
         }
         if(dto.password() != null){
-            tutor.setPassword(dto.password());
+            tutor.getUser().setPassword(passwordEncoder.encode(dto.password()));
         }
         return new DadosRetornoTutor(tutor);
     }

@@ -14,6 +14,6 @@ public record DadosDetalhamentoAbrigo(
         Endereco endereco
 ) {
     public DadosDetalhamentoAbrigo(Abrigo abrigo){
-        this(abrigo.getId(), abrigo.getNome(), abrigo.getCnpj(), abrigo.getLogin(), abrigo.getTelefone(), abrigo.getEndereco());
+        this(abrigo.getId(), abrigo.getNome(), abrigo.getCnpj(), abrigo.getUser().getUsername(), abrigo.getTelefone(), abrigo.getEndereco());
     }
 }

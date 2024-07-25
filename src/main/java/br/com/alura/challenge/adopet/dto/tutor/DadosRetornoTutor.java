@@ -11,6 +11,6 @@ public record DadosRetornoTutor(
         String cidade
 ) {
     public DadosRetornoTutor(Tutor tutor) {
-        this(tutor.getId(), tutor.getNome(), tutor.getLogin(), tutor.getCidade());
+        this(tutor.getId(), tutor.getNome(), tutor.getUser().getUsername(), tutor.getCidade());
     }
 }

@@ -11,6 +11,6 @@ public record DadosRetornoAbrigo(
         String telefone
 ) {
     public DadosRetornoAbrigo(Abrigo abrigo) {
-        this(abrigo.getId(), abrigo.getNome(), abrigo.getLogin(), abrigo.getTelefone());
+        this(abrigo.getId(), abrigo.getNome(), abrigo.getUser().getUsername(), abrigo.getTelefone());
     }
 }

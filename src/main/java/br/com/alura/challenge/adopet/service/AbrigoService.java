@@ -8,11 +8,14 @@ import br.com.alura.challenge.adopet.dto.pet.CadastroPets;
 import br.com.alura.challenge.adopet.dto.pet.DadosDetalhamentoPet;
 import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.model.Endereco;
+import br.com.alura.challenge.adopet.model.User;
+import br.com.alura.challenge.adopet.model.UserRole;
 import br.com.alura.challenge.adopet.repository.AbrigoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -21,15 +24,28 @@ import java.util.UUID;
 public class AbrigoService {
 
     @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
     private AbrigoRepository repository;
 
     @Autowired
     private PetService petService;
 
+    @Autowired
+    private UserService userService;
+
     public Abrigo cadastrarAbrigo(CadastroAbrigo dto) {
+
         Endereco endereco = BuscaEndereco.pegarEndereco(dto.cep());
         endereco.setNumero(dto.numero());
-        Abrigo abrigo = new Abrigo(dto.nome(), dto.cnpj(), dto.login(), dto.senha(), dto.telefone(), endereco);
+
+        Abrigo abrigo = new Abrigo(dto.nome(), dto.cnpj(), dto.telefone(), endereco);
+
+        User user = new User(dto.login(), encoder.encode(dto.senha()), UserRole.ABRIGO);
+        userService.saveUser(user);
+
+        abrigo.setUser(user);
         return repository.save(abrigo);
     }
 
@@ -59,7 +75,7 @@ public class AbrigoService {
             abrigo.setNome(dto.nome());
         }
         if(dto.senha() != null){
-            abrigo.setSenha(dto.senha());
+            abrigo.getUser().setPassword(encoder.encode(dto.senha()));
         }
         if(dto.telefone() != null){
             abrigo.setTelefone(dto.telefone());

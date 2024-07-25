@@ -35,5 +35,8 @@ public class AdocaoController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @DeleteMapping
+    public String excluirAdocao() {
+        return "Excluido com sucesso!";
+    }
 }
