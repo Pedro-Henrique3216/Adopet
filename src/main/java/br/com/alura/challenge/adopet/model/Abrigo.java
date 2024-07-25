@@ -21,20 +21,20 @@ public class Abrigo {
     @Setter
     private String nome;
     private String cnpj;
-    private String login;
-    @Setter
-    private String senha;
     @Setter
     private String telefone;
     @Setter
     @Embedded
     private Endereco endereco;
+    @OneToOne()
+    @JoinColumn(name = "users_id")
+    @Setter
+    private User user;
 
-    public Abrigo(String nome, String cnpj, String login, String senha, String telefone, Endereco endereco) {
+    public Abrigo(String nome, String cnpj, String telefone, Endereco endereco) {
         this.nome = nome;
         this.cnpj = cnpj;
-        this.login = login;
-        this.senha = senha;
+
         this.telefone = telefone;
         this.endereco = endereco;
     }

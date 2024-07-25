@@ -17,16 +17,16 @@ public class Tutor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String login;
-    private String password;
     private String nome;
     private String cidade;
     private String telefone;
     private String sobreMim;
+    @OneToOne
+    @JoinColumn(name = "users_id")
+    @Setter
+    private User user;
 
-    public Tutor(String login, String password, String nome, String cidade, String telefone, String sobreMim) {
-        this.login = login;
-        this.password = password;
+    public Tutor(String nome, String cidade, String telefone, String sobreMim) {
         this.nome = nome;
         this.cidade = cidade;
         this.telefone = telefone;
