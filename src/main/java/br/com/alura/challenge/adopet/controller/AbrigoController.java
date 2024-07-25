@@ -8,6 +8,7 @@ import br.com.alura.challenge.adopet.dto.pet.CadastroPets;
 import br.com.alura.challenge.adopet.dto.pet.DadosDetalhamentoPet;
 import br.com.alura.challenge.adopet.model.Abrigo;
 import br.com.alura.challenge.adopet.service.AbrigoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,23 +38,27 @@ public class AbrigoController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Page<DadosRetornoAbrigo>> listarAbrigos(Pageable pageable) {
         return ResponseEntity.ok(service.listarAbrigos(pageable));
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<DadosDetalhamentoAbrigo> buscarAbrigoPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(service.buscarAbrigoPorId(id));
     }
 
     @PutMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<DadosDetalhamentoAbrigo> atualizarAbrigo(@PathVariable UUID id, @RequestBody @Valid DadosAtualizaAbrigo dto) {
         return ResponseEntity.ok(service.atualizarAbrigo(id, dto));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.excluir(id);
         return ResponseEntity.noContent().build();
@@ -61,6 +66,7 @@ public class AbrigoController {
 
     @PostMapping("/cadastrarPet")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<DadosDetalhamentoPet> cadastrarPet(@RequestBody @Valid CadastroPets dto){
         return ResponseEntity.ok(service.cadastraPet(dto));
     }

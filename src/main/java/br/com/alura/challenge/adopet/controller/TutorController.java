@@ -5,6 +5,7 @@ import br.com.alura.challenge.adopet.dto.tutor.DadosAtualizaTutor;
 import br.com.alura.challenge.adopet.dto.tutor.DadosRetornoTutor;
 import br.com.alura.challenge.adopet.model.Tutor;
 import br.com.alura.challenge.adopet.service.TutorService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,23 +34,27 @@ public class TutorController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Page<DadosRetornoTutor>> findAll(Pageable pageable) {
         return ResponseEntity.ok(service.findAll(pageable));
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<DadosRetornoTutor> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @PutMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<DadosRetornoTutor> update(@PathVariable UUID id, @RequestBody DadosAtualizaTutor dto) {
         return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.excluir(id);
         return ResponseEntity.noContent().build();

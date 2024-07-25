@@ -3,6 +3,7 @@ package br.com.alura.challenge.adopet.controller;
 import br.com.alura.challenge.adopet.dto.pet.DadosAtualizaPet;
 import br.com.alura.challenge.adopet.dto.pet.DadosDetalhamentoPet;
 import br.com.alura.challenge.adopet.service.PetService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/pets")
+@SecurityRequirement(name = "bearer-key")
 public class PetController {
 
     @Autowired
