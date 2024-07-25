@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/abrigos").permitAll()
                         .requestMatchers(HttpMethod.POST, "/tutores").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/abrigos/cadastrarPet").hasRole("ABRIGO")
                         .requestMatchers(HttpMethod.DELETE, "/adocoes/{id}").hasRole("ABRIGO")
                         .anyRequest().authenticated())
