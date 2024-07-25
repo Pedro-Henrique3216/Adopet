@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/abrigos").permitAll()
                         .requestMatchers(HttpMethod.POST, "/tutores").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/abrigos/cadastrarPet").hasRole("ABRIGO")
                         .requestMatchers(HttpMethod.DELETE, "/adocoes/{id}").hasRole("ABRIGO")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
